@@ -69,10 +69,18 @@ $conn->close();
        echo '<tr>';
        foreach ($fields as $field) {
            $input_type = ($field == 'Password') ? 'password' : 'text';
+           $extra_attrs = '';
+           
            if ($field == 'E-pasts') {
                $input_type = 'email';
            }
-           echo '<td><input type="' . $input_type . '" name="' . strtolower($field) . '" required></td>';
+           
+           if ($field == 'Telefons') {
+               $input_type = 'tel';
+               $extra_attrs = ' pattern="[0-9+\-\s()]{8,20}" title="Lūdzu ievadiet derīgu telefona numuru (tikai cipari, +, -, spaces)"';
+           }
+           
+           echo '<td><input type="' . $input_type . '" name="' . strtolower($field) . '" required' . $extra_attrs . '></td>';
        }
        echo '</tr>';
        echo '<tr>';
