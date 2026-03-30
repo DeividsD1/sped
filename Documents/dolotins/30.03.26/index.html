@@ -8,5 +8,31 @@
 </head>
 <body>
    <h1>Registracijas forma</h1>
+   
+   <form action="" method="POST">
+       <table border="1">
+           <tr>
+               <td><label for="vards">Vārds:</label></td>
+               <td><input type="text" id="vards" name="vards" required></td>
+           </tr>
+           <tr>
+               <td><label for="uzvards">Uzvārds:</label></td>
+               <td><input type="text" id="uzvards" name="uzvards" required></td>
+           </tr>
+           <tr>
+               <td><label for="epasts">E-pasts:</label></td>
+               <td><input type="email" id="epasts" name="epasts" required></td>
+           </tr>
+           <tr>
+               <td><label for="telefons">Telefons:</label></td>
+               <td><input type="tel" id="telefons" name="telefons" required></td>
+           </tr>
+           <tr>
+               <td colspan="2" style="text-align: center;">
+                   <button type="submit">Reģistrēties</button>
+               </td>
+           </tr>
+       </table>
+   </form>
 </body>
 </html>
