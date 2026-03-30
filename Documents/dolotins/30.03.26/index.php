@@ -16,82 +16,69 @@ $message = "";
 
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $vards = $_POST['vārds'] ?? '';
-    $uzvards = $_POST['uzvārds'] ?? '';
-    $epasts = $_POST['e-pasts'] ?? '';
+    $vards = $_POST['vards'] ?? '';
+    $uzvards = $_POST['uzvards'] ?? '';
+    $epasts = $_POST['epasts'] ?? '';
     $telefons = $_POST['telefons'] ?? '';
     $password_input = $_POST['password'] ?? '';
-    
-    // Hash the password
+
+    // Hash password
     $hashed_password = password_hash($password_input, PASSWORD_DEFAULT);
-    
-    // Insert into database
+
+    // Insert into DB
     $stmt = $conn->prepare("INSERT INTO users (vards, uzvards, epasts, telefons, password) VALUES (?, ?, ?, ?, ?)");
     $stmt->bind_param("sssss", $vards, $uzvards, $epasts, $telefons, $hashed_password);
-    
+
     if ($stmt->execute()) {
-        $message = "<p style='color: green;'>Reģistrācija veiksmīga!</p>";
+        $message = "<div class='success'>Reģistrācija veiksmīga!</div>";
     } else {
-        $message = "<p style='color: red;'>Kļūda: " . $stmt->error . "</p>";
+        $message = "<div class='error'>Kļūda: " . $stmt->error . "</div>";
     }
-    
+
     $stmt->close();
 }
 
 $conn->close();
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="lv">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Reģistrācija</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-   <h1 id="title">Registracijas forma</h1>
-   
-   <?php echo $message; ?>
-   
-   <form action="" method="POST">
-       <?php
-       // Input table
-       $fields = ['Vārds', 'Uzvārds', 'E-pasts', 'Telefons', 'Password'];
-       
-       echo '<table border="1">';
-       echo '<tr>';
-       foreach ($fields as $field) {
-           echo '<th>' . $field . '</th>';
-       }
-       echo '</tr>';
-       
-       echo '<tr>';
-       foreach ($fields as $field) {
-           $input_type = ($field == 'Password') ? 'password' : 'text';
-           $extra_attrs = '';
-           
-           if ($field == 'E-pasts') {
-               $input_type = 'email';
-           }
-           
-           if ($field == 'Telefons') {
-               $input_type = 'tel';
-               $extra_attrs = ' pattern="[0-9+\-\s()]{8,20}" title="Lūdzu ievadiet derīgu telefona numuru (tikai cipari, +, -, spaces)"';
-           }
-           
-           echo '<td><input type="' . $input_type . '" name="' . strtolower($field) . '" required' . $extra_attrs . '></td>';
-       }
-       echo '</tr>';
-       echo '<tr>';
-       echo '<td colspan="5" style="text-align: center;">';
-       echo '<button type="submit">Reģistrēties</button>';
-       echo '</td>';
-       echo '</tr>';
-       echo '</table>';
-       ?>
-   </form>
 
-   <script src="index.js"></script>
+<div class="container">
+    <h1>Reģistrācijas forma</h1>
+
+    <?php echo $message; ?>
+
+    <form method="POST">
+
+        <label>Vārds</label>
+        <input type="text" name="vards" required>
+
+        <label>Uzvārds</label>
+        <input type="text" name="uzvards" required>
+
+        <label>E-pasts</label>
+        <input type="email" name="epasts" required>
+
+        <label>Telefons</label>
+        <input type="tel" name="telefons" 
+               pattern="[0-9+\-\s()]{8,20}" 
+               title="Ievadiet derīgu telefona numuru">
+
+        <label>Parole</label>
+        <input type="password" name="password" required>
+
+        <button type="submit">Reģistrēties</button>
+
+    </form>
+</div>
+
+<script src="index.js"></script>
 </body>
 </html>
