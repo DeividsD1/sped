@@ -49,7 +49,7 @@ $conn->close();
     <title>Document</title>
 </head>
 <body>
-   <h1>Registracijas forma</h1>
+   <h1 id="title">Registracijas forma</h1>
    
    <?php echo $message; ?>
    
@@ -82,5 +82,7 @@ $conn->close();
        echo '</table>';
        ?>
    </form>
+
+   <script src="index.js"></script>
 </body>
 </html>
